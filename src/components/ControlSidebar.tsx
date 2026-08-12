@@ -56,9 +56,9 @@ export const ControlSidebar: React.FC<ControlSidebarProps> = ({
   const readinessPercent = requiredSkillIds.length > 0 ? Math.round((matchedSkillsCount / requiredSkillIds.length) * 100) : 0;
 
   return (
-    <aside className="w-96 bg-white border-r border-slate-200 flex flex-col z-20 shrink-0 shadow-sm">
+    <aside className="w-96 bg-white border-r border-slate-200 flex flex-col z-20 shrink-0 shadow-sm h-full max-h-full min-h-0 overflow-hidden">
       {/* MODE TABS */}
-      <div className="p-3 border-b border-slate-200 grid grid-cols-3 gap-1 bg-slate-50">
+      <div className="p-3 border-b border-slate-200 grid grid-cols-3 gap-1 bg-slate-50 shrink-0">
         <button
           onClick={() => setActiveTab('role')}
           className={`flex items-center justify-center gap-1.5 py-2 px-2 rounded-xl text-xs font-bold transition ${
@@ -98,7 +98,7 @@ export const ControlSidebar: React.FC<ControlSidebarProps> = ({
 
       {/* TAB 1: CAREER ROLE & READINESS ANALYZER */}
       {activeTab === 'role' && (
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        <div className="flex-1 min-h-0 overflow-y-auto p-4 space-y-4 pb-16">
           <div>
             <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
               Target Career Pathway
@@ -262,7 +262,7 @@ export const ControlSidebar: React.FC<ControlSidebarProps> = ({
 
       {/* TAB 2: SHORTEST LEARNING PATH SIMULATOR */}
       {activeTab === 'path' && (
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        <div className="flex-1 min-h-0 overflow-y-auto p-4 space-y-4 pb-16">
           <div className="p-3.5 rounded-2xl bg-purple-50 border border-purple-200 text-xs text-purple-900 leading-relaxed shadow-sm">
             <span className="font-bold text-purple-800 flex items-center gap-1 mb-1">
               <Zap className="w-3.5 h-3.5 text-purple-600" />
@@ -317,7 +317,7 @@ export const ControlSidebar: React.FC<ControlSidebarProps> = ({
                   {pathResult.found ? `${pathResult.hops} Hops • ${pathResult.executionMs}ms` : 'No Path'}
                 </span>
               </div>
-              <div className="space-y-2 relative before:absolute before:left-3.5 before:top-3 before:bottom-3 before:w-0.5 before:bg-slate-200">
+              <div className="space-y-2 relative before:absolute before:left-3.5 before:top-3 before:bottom-3 before:w-0.5 before:bg-slate-200 pb-6">
                 {pathResult.steps?.map((step: any, idx: number) => (
                   <div
                     key={step.id}
@@ -344,7 +344,7 @@ export const ControlSidebar: React.FC<ControlSidebarProps> = ({
 
       {/* TAB 3: GRAPH TOPOLOGY & DEGREE ANALYTICS */}
       {activeTab === 'analytics' && (
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        <div className="flex-1 min-h-0 overflow-y-auto p-4 space-y-4 pb-16">
           <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900 leading-relaxed shadow-sm">
             <span className="font-bold text-emerald-800 block mb-1">Graph Centrality Insights:</span>
             Identifies core foundational skills vs high-leverage advanced tech nodes.

@@ -77,9 +77,9 @@ export const NodeInspector: React.FC<NodeInspectorProps> = ({
     .filter(Boolean);
 
   return (
-    <aside className="w-84 md:w-96 bg-white border-l border-slate-200 flex flex-col z-20 shrink-0 shadow-xl">
+    <aside className="w-84 md:w-96 bg-white border-l border-slate-200 flex flex-col z-20 shrink-0 shadow-xl h-full max-h-full min-h-0 overflow-hidden">
       {/* Header */}
-      <div className="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+      <div className="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50 shrink-0">
         <div>
           <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
             {skill.category}
@@ -94,7 +94,7 @@ export const NodeInspector: React.FC<NodeInspectorProps> = ({
         </button>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 min-h-0 overflow-y-auto p-4 space-y-4 pb-16">
         {/* Skill Card */}
         <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 shadow-sm">
           <div className="flex items-center gap-2 mb-1">
