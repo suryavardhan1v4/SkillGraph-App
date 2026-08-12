@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect, useState, useImperativeHandle, forwardRef } from 'react';
 import dynamic from 'next/dynamic';
-import { MousePointer } from 'lucide-react';
+import { MousePointer, RotateCcw } from 'lucide-react';
 
 const ForceGraph2D = dynamic(() => import('react-force-graph-2d'), { ssr: false });
 
@@ -38,7 +38,6 @@ export const GraphCanvas = forwardRef<GraphCanvasRef, GraphCanvasProps>(
     const fgRef = useRef<any>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const [dimensions, setDimensions] = useState({ width: 800, height: 600 });
-    const [nodeSizeScale, setNodeSizeScale] = useState<number>(1.0); // 0.8, 1.0, 1.4
 
     useEffect(() => {
       function updateDimensions() {
@@ -71,7 +70,7 @@ export const GraphCanvas = forwardRef<GraphCanvasRef, GraphCanvasProps>(
 
     const resetZoom = () => {
       if (fgRef.current && typeof fgRef.current.zoomToFit === 'function') {
-        fgRef.current.zoomToFit(400, 40);
+        fgRef.current.zoomToFit(500, 50);
       }
     };
 
@@ -103,7 +102,7 @@ export const GraphCanvas = forwardRef<GraphCanvasRef, GraphCanvasProps>(
             backgroundColor="#070a13"
             nodeId="id"
             nodeLabel={(node: any) => `${node.name} (${node.category})`}
-            nodeRelSize={7 * nodeSizeScale}
+            nodeRelSize={7}
             linkSource="source"
             linkTarget="target"
             linkDirectionalArrowLength={4.5}
@@ -126,7 +125,7 @@ export const GraphCanvas = forwardRef<GraphCanvasRef, GraphCanvasProps>(
               const isSelected = activePath.includes(node.id);
 
               const color = CATEGORY_COLORS[node.category] || CATEGORY_COLORS.Default;
-              const baseRadius = (node.label === 'JobRole' ? 9.5 : node.label === 'Course' ? 5 : 6.5) * nodeSizeScale;
+              const baseRadius = node.label === 'JobRole' ? 9.5 : node.label === 'Course' ? 5 : 6.5;
               const radius = isSelected ? baseRadius * 1.35 : baseRadius;
 
               ctx.save();
@@ -179,6 +178,19 @@ export const GraphCanvas = forwardRef<GraphCanvasRef, GraphCanvasProps>(
             onNodeClick={(node: any) => onNodeClick(node)}
           />
         )}
+
+        {/* Floating Reset View Button */}
+        <button
+          onClick={() => {
+            resetZoom();
+            onResetView();
+          }}
+          className="absolute top-4 right-4 z-10 px-3.5 py-2 rounded-xl bg-[#0f172a]/90 hover:bg-[#1e293b] text-gray-200 hover:text-white border border-gray-700/80 shadow-2xl flex items-center gap-2 text-xs font-semibold backdrop-blur-md transition active:scale-95 cursor-pointer"
+          title="Reset Camera & Clear Selections"
+        >
+          <RotateCcw className="w-3.5 h-3.5 text-indigo-400" />
+          <span>Reset View</span>
+        </button>
 
         {/* Real-time Interaction Hint Pill */}
         <div className="absolute bottom-4 left-4 px-3.5 py-2 rounded-xl bg-[#0f172a]/85 backdrop-blur-md border border-gray-700/80 text-[11px] text-gray-300 flex items-center gap-2.5 pointer-events-none shadow-xl font-medium">

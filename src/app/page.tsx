@@ -211,6 +211,21 @@ export default function HomePage() {
     setHighlightedNodes(new Set());
     setHighlightedLinks(new Set());
     setActivePath([]);
+    setSelectedRole(null);
+    setPathResult(null);
+    setInspectedSkillId(null);
+    setSelectedCategories([
+      'AI & ML',
+      'Backend & Cloud',
+      'Frontend',
+      'Data Engineering',
+      'Core Programming',
+    ]);
+    setCypherQuery('MATCH (s:Skill)-[:PREREQUISITE_OF]->(target:Skill) RETURN s, target');
+    setCypherLatency(18);
+    if (graphCanvasRef.current) {
+      graphCanvasRef.current.resetZoom();
+    }
   };
 
   const handleSeed = async () => {
