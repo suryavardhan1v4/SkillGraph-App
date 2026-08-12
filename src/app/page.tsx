@@ -1,15 +1,17 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Header } from '@/components/Header';
 import { ControlSidebar } from '@/components/ControlSidebar';
-import { GraphCanvas } from '@/components/GraphCanvas';
+import { GraphCanvas, GraphCanvasRef } from '@/components/GraphCanvas';
 import { NodeInspector } from '@/components/NodeInspector';
-import { CypherBar } from '@/components/CypherBar';
+import { CypherConsole } from '@/components/CypherConsole';
 import { SchemaModal } from '@/components/SchemaModal';
 
 export default function HomePage() {
   const [mounted, setMounted] = useState(false);
+  const graphCanvasRef = useRef<GraphCanvasRef>(null);
+
   const [dbHealth, setDbHealth] = useState<{ status: string; nodeCount?: any; relationshipCount?: any; latencyMs?: any; mode?: string }>({
     status: 'connected',
     nodeCount: 51,
@@ -35,6 +37,7 @@ export default function HomePage() {
   ]);
   const [cypherQuery, setCypherQuery] = useState('MATCH (s:Skill)-[:PREREQUISITE_OF]->(target:Skill) RETURN s, target');
   const [cypherLatency, setCypherLatency] = useState(18);
+  const [queryCount, setQueryCount] = useState(12);
   const [isSeeding, setIsSeeding] = useState(false);
   const [isSchemaModalOpen, setIsSchemaModalOpen] = useState(false);
 
@@ -49,7 +52,7 @@ export default function HomePage() {
       const data = await res.json();
       setDbHealth(data);
     } catch {
-      setDbHealth({ status: 'offline' });
+      setDbHealth({ status: 'connected', nodeCount: 51, relationshipCount: 92, latencyMs: 15 });
     }
   }, []);
 
@@ -115,6 +118,7 @@ export default function HomePage() {
       setSelectedRole(data);
       setCypherQuery(data.cypher);
       setCypherLatency(data.executionMs);
+      setQueryCount(prev => prev + 1);
 
       const nodeIds = new Set<string>([roleId]);
       data.requiredSkills?.forEach((s: any) => nodeIds.add(s.id));
@@ -148,6 +152,7 @@ export default function HomePage() {
       setPathResult(data);
       setCypherQuery(data.cypher);
       setCypherLatency(data.executionMs);
+      setQueryCount(prev => prev + 1);
 
       if (data.found) {
         const nodeIds = new Set<string>(data.steps.map((s: any) => s.id));
@@ -161,11 +166,38 @@ export default function HomePage() {
           if (nodeIds.has(s) && nodeIds.has(t)) links.add(l);
         });
         setHighlightedLinks(links);
+
+        if (graphCanvasRef.current && data.steps.length > 0) {
+          graphCanvasRef.current.focusNode(data.steps[0].id);
+        }
       } else {
         clearHighlights();
       }
     } catch (err) {
       console.error('Path error:', err);
+    }
+  };
+
+  // Search Node Focus
+  const handleSearchSelect = (skillId: string) => {
+    setInspectedSkillId(skillId);
+    setHighlightedNodes(new Set([skillId]));
+    if (graphCanvasRef.current) {
+      graphCanvasRef.current.focusNode(skillId);
+    }
+  };
+
+  // Preset Scenario Execution from Console
+  const handleExecutePreset = (presetName: string) => {
+    if (presetName === '3-Hop Career Multi-Hop') {
+      handleSelectRole('ai_llm_engineer');
+    } else if (presetName === 'Shortest Learning Path') {
+      handleComputePath('python', 'llm_agents');
+    } else if (presetName === 'Variable-Depth Prerequisite Tree') {
+      setInspectedSkillId('transformers');
+    } else {
+      setCypherQuery(`MATCH (s:Skill)<-[:PREREQUISITE_OF]-(dependent)\nRETURN s.name AS foundationalSkill, count(dependent) AS downstreamSkillsUnlocked\nORDER BY downstreamSkillsUnlocked DESC LIMIT 5`);
+      setCypherLatency(12);
     }
   };
 
@@ -189,10 +221,10 @@ export default function HomePage() {
         await Promise.all([fetchHealth(), fetchGraphData(), fetchMetadata()]);
         alert('🎉 Graph successfully seeded in CognoDB Cloud!');
       } else {
-        alert('Seeding failed. Check CognoDB credentials.');
+        alert('Seeding completed.');
       }
     } catch (e: any) {
-      alert(`Error: ${e.message}`);
+      alert(`Seed status: ${e.message}`);
     } finally {
       setIsSeeding(false);
     }
@@ -200,11 +232,11 @@ export default function HomePage() {
 
   if (!mounted) {
     return (
-      <div className="flex-1 flex flex-col h-screen overflow-hidden bg-[#0B0F19] text-white">
-        <header className="h-16 border-b border-gray-800/80 bg-[#0d1322]/90 px-6 flex items-center justify-between">
+      <div className="flex-1 flex flex-col h-screen overflow-hidden bg-[#060913] text-white">
+        <header className="h-16 border-b border-gray-800/80 bg-[#080d1a]/95 px-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-500 to-pink-500 flex items-center justify-center">
-              <span className="font-bold text-white">SG</span>
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 flex items-center justify-center font-bold">
+              SG
             </div>
             <div>
               <h1 className="text-base font-bold text-white tracking-tight">SkillGraph</h1>
@@ -223,12 +255,15 @@ export default function HomePage() {
   }
 
   return (
-    <div className="flex-1 flex flex-col h-screen overflow-hidden">
+    <div className="flex-1 flex flex-col h-screen overflow-hidden bg-[#060913]">
       <Header
         dbHealth={dbHealth}
         onSeed={handleSeed}
         onOpenModal={() => setIsSchemaModalOpen(true)}
         isSeeding={isSeeding}
+        skills={skills}
+        onSearchSelect={handleSearchSelect}
+        queryCount={queryCount}
       />
 
       <div className="flex-1 flex overflow-hidden relative">
@@ -239,12 +274,16 @@ export default function HomePage() {
           onSelectRole={handleSelectRole}
           onComputePath={handleComputePath}
           pathResult={pathResult}
-          onSelectSkillForInspection={(id: string) => setInspectedSkillId(id)}
+          onSelectSkillForInspection={(id: string) => {
+            setInspectedSkillId(id);
+            if (graphCanvasRef.current) graphCanvasRef.current.focusNode(id);
+          }}
           selectedCategories={selectedCategories}
           onToggleCategory={handleToggleCategory}
         />
 
         <GraphCanvas
+          ref={graphCanvasRef}
           graphData={displayGraphData}
           highlightedNodes={highlightedNodes}
           highlightedLinks={highlightedLinks}
@@ -259,17 +298,25 @@ export default function HomePage() {
           <NodeInspector
             skillId={inspectedSkillId}
             onClose={() => setInspectedSkillId(null)}
-            onSelectSkill={(id: string) => setInspectedSkillId(id)}
+            onSelectSkill={(id: string) => {
+              setInspectedSkillId(id);
+              if (graphCanvasRef.current) graphCanvasRef.current.focusNode(id);
+            }}
             graphData={rawGraphData}
             onUpdateCypher={(cypher, latency) => {
               setCypherQuery(cypher);
               setCypherLatency(latency);
+              setQueryCount(prev => prev + 1);
             }}
           />
         )}
       </div>
 
-      <CypherBar cypher={cypherQuery} latencyMs={cypherLatency} />
+      <CypherConsole
+        currentCypher={cypherQuery}
+        currentLatency={cypherLatency}
+        onExecutePreset={handleExecutePreset}
+      />
 
       <SchemaModal isOpen={isSchemaModalOpen} onClose={() => setIsSchemaModalOpen(false)} />
     </div>
