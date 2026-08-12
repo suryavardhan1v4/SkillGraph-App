@@ -77,7 +77,7 @@ export const NodeInspector: React.FC<NodeInspectorProps> = ({
     .filter(Boolean);
 
   return (
-    <aside className="w-84 md:w-96 bg-white border-l border-slate-200 flex flex-col z-20 shrink-0 shadow-xl h-full max-h-full min-h-0 overflow-hidden">
+    <aside className="w-84 md:w-96 bg-white border-l border-slate-200 flex flex-col z-20 shrink-0 shadow-xl h-[calc(100vh-4rem-3rem)] max-h-[calc(100vh-4rem-3rem)] overflow-hidden">
       {/* Header */}
       <div className="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50 shrink-0">
         <div>
@@ -94,7 +94,7 @@ export const NodeInspector: React.FC<NodeInspectorProps> = ({
         </button>
       </div>
 
-      <div className="flex-1 min-h-0 overflow-y-auto p-4 space-y-4 pb-16">
+      <div className="flex-1 overflow-y-scroll custom-scrollbar p-4 space-y-4 pb-20">
         {/* Skill Card */}
         <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 shadow-sm">
           <div className="flex items-center gap-2 mb-1">
