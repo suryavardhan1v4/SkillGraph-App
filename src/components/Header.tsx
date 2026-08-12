@@ -37,9 +37,10 @@ export const Header: React.FC<HeaderProps> = ({ dbHealth, onSeed, onOpenModal, i
           <span className="font-medium">
             CognoDB:{' '}
             <span className="text-emerald-400 font-mono font-bold">
-              {dbHealth.nodeCount || 51} nodes, {dbHealth.relationshipCount || 92} rels
+              {Number(dbHealth.nodeCount?.low ?? dbHealth.nodeCount) || 51} nodes,{' '}
+              {Number(dbHealth.relationshipCount?.low ?? dbHealth.relationshipCount) || 92} rels
             </span>{' '}
-            ({dbHealth.latencyMs || 18}ms)
+            ({Number(dbHealth.latencyMs?.low ?? dbHealth.latencyMs) || 18}ms)
           </span>
         </div>
 

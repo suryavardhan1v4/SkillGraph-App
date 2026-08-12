@@ -1,4 +1,4 @@
-import { getDriver, getCachedDataset } from './neo4j';
+import { getDriver, getCachedDataset, serializeNeo4j } from './neo4j';
 
 export async function getFullGraph() {
   const driver = getDriver();
@@ -10,7 +10,7 @@ export async function getFullGraph() {
         RETURN id(n) AS internalId, labels(n)[0] AS label, properties(n) AS props
       `);
       const nodes = nodeRes.records.map(r => {
-        const props = r.get('props');
+        const props = serializeNeo4j(r.get('props'));
         const label = r.get('label');
         const id = props.id || String(r.get('internalId'));
         return {
@@ -19,13 +19,13 @@ export async function getFullGraph() {
           label,
           category: props.category || label,
           difficulty: props.difficulty || 'N/A',
-          importance: props.importance || 3,
+          importance: typeof props.importance === 'number' ? props.importance : 3,
           description: props.description || '',
           avgSalary: props.avgSalary || '',
           department: props.department || '',
           provider: props.provider || '',
           url: props.url || '',
-          durationHours: props.durationHours || 0,
+          durationHours: typeof props.durationHours === 'number' ? props.durationHours : 0,
         };
       });
 
@@ -38,11 +38,11 @@ export async function getFullGraph() {
           source: r.get('source'),
           target: r.get('target'),
           type: r.get('type'),
-          props: r.get('props'),
+          props: serializeNeo4j(r.get('props')),
         }))
         .filter(l => l.source && l.target);
 
-      return { nodes, links, stats: { totalNodes: nodes.length, totalLinks: links.length } };
+      return serializeNeo4j({ nodes, links, stats: { totalNodes: nodes.length, totalLinks: links.length } });
     } catch (e) {
       console.log('Falling back to cached graph');
     } finally {
@@ -64,7 +64,7 @@ export async function getFullGraph() {
     ...(data.course_teaches || []).map((t: any) => ({ source: t.course, target: t.skill, type: 'TEACHES' })),
   ];
 
-  return { nodes, links, stats: { totalNodes: nodes.length, totalLinks: links.length } };
+  return serializeNeo4j({ nodes, links, stats: { totalNodes: nodes.length, totalLinks: links.length } });
 }
 
 export async function findShortestLearningPath(startId: string, endId: string) {
@@ -90,14 +90,17 @@ export async function findShortestLearningPath(startId: string, endId: string) {
       const res = await session.run(cypher, params);
       const record = res.records[0];
       if (record) {
-        return {
+        const rawSteps = record.get('steps');
+        const rawHops = record.get('totalHops');
+        const hops = typeof rawHops?.toNumber === 'function' ? rawHops.toNumber() : (rawHops?.low ?? Number(rawHops));
+        return serializeNeo4j({
           found: true,
-          steps: record.get('steps'),
-          hops: record.get('totalHops')?.toNumber() || record.get('totalHops'),
+          steps: rawSteps,
+          hops: Number(hops),
           cypher,
           params,
           executionMs: Date.now() - startTime,
-        };
+        });
       }
     } catch (e) {
       console.log('Shortest path fallback');
@@ -137,10 +140,18 @@ export async function findShortestLearningPath(startId: string, endId: string) {
   const executionMs = Math.max(8, Date.now() - startTime);
   if (foundPath) {
     const steps = foundPath.map(id => skillsMap.get(id)).filter(Boolean);
-    return { found: true, steps, hops: steps.length - 1, cypher, params, executionMs };
+    return serializeNeo4j({ found: true, steps, hops: steps.length - 1, cypher, params, executionMs });
   }
 
-  return { found: false, message: `No direct prerequisite path found between '${startId}' and '${endId}'.`, steps: [], hops: 0, cypher, params, executionMs };
+  return serializeNeo4j({
+    found: false,
+    message: `No direct prerequisite path found between '${startId}' and '${endId}'.`,
+    steps: [],
+    hops: 0,
+    cypher,
+    params,
+    executionMs,
+  });
 }
 
 export async function getTransitivePrerequisites(skillId: string) {
@@ -161,14 +172,25 @@ export async function getTransitivePrerequisites(skillId: string) {
     const session = driver.session();
     try {
       const res = await session.run(cypher, params);
-      const prerequisites = res.records.map(r => ({
-        id: r.get('id'),
-        name: r.get('name'),
-        category: r.get('category'),
-        difficulty: r.get('difficulty'),
-        minHopsAway: r.get('minHopsAway')?.toNumber() || r.get('minHopsAway'),
-      }));
-      return { targetSkillId: skillId, totalPrerequisites: prerequisites.length, prerequisites, cypher, params, executionMs: Date.now() - startTime };
+      const prerequisites = res.records.map(r => {
+        const rawHops = r.get('minHopsAway');
+        const minHopsAway = typeof rawHops?.toNumber === 'function' ? rawHops.toNumber() : (rawHops?.low ?? Number(rawHops));
+        return {
+          id: r.get('id'),
+          name: r.get('name'),
+          category: r.get('category'),
+          difficulty: r.get('difficulty'),
+          minHopsAway: Number(minHopsAway),
+        };
+      });
+      return serializeNeo4j({
+        targetSkillId: skillId,
+        totalPrerequisites: prerequisites.length,
+        prerequisites,
+        cypher,
+        params,
+        executionMs: Date.now() - startTime,
+      });
     } catch (e) {
       console.log('Transitive prereq fallback');
     } finally {
@@ -208,11 +230,18 @@ export async function getTransitivePrerequisites(skillId: string) {
     .forEach(([pid, d]) => {
       const s = skillsMap.get(pid);
       if (s) {
-        prerequisites.push({ id: s.id, name: s.name, category: s.category, difficulty: s.difficulty, minHopsAway: d });
+        prerequisites.push({ id: s.id, name: s.name, category: s.category, difficulty: s.difficulty, minHopsAway: Number(d) });
       }
     });
 
-  return { targetSkillId: skillId, totalPrerequisites: prerequisites.length, prerequisites, cypher, params, executionMs: Math.max(12, Date.now() - startTime) };
+  return serializeNeo4j({
+    targetSkillId: skillId,
+    totalPrerequisites: prerequisites.length,
+    prerequisites,
+    cypher,
+    params,
+    executionMs: Math.max(12, Date.now() - startTime),
+  });
 }
 
 export async function getRoleRoadmap(roleId: string) {
@@ -238,10 +267,10 @@ export async function getRoleRoadmap(roleId: string) {
       const res = await session.run(cypher, params);
       const r = res.records[0];
       if (r && r.get('roleId')) {
-        const requiredSkills = r.get('requiredSkills').map((s: any) => s.properties).filter((s: any) => s && s.id);
-        const upstreamPrerequisites = r.get('upstreamPrerequisites').map((p: any) => p.properties).filter((p: any) => p && p.id);
-        const recommendedCourses = r.get('recommendedCourses').map((c: any) => c.properties).filter((c: any) => c && c.id);
-        return {
+        const requiredSkills = (r.get('requiredSkills') || []).map((s: any) => serializeNeo4j(s.properties)).filter((s: any) => s && s.id);
+        const upstreamPrerequisites = (r.get('upstreamPrerequisites') || []).map((p: any) => serializeNeo4j(p.properties)).filter((p: any) => p && p.id);
+        const recommendedCourses = (r.get('recommendedCourses') || []).map((c: any) => serializeNeo4j(c.properties)).filter((c: any) => c && c.id);
+        return serializeNeo4j({
           found: true,
           roleId: r.get('roleId'),
           title: r.get('title'),
@@ -254,7 +283,7 @@ export async function getRoleRoadmap(roleId: string) {
           cypher,
           params,
           executionMs: Date.now() - startTime,
-        };
+        });
       }
     } catch (e) {
       console.log('Role roadmap fallback');
@@ -267,7 +296,7 @@ export async function getRoleRoadmap(roleId: string) {
   const data = getCachedDataset();
   const role = (data.job_roles || []).find((r: any) => r.id === roleId);
   if (!role) {
-    return { found: false, message: `Job role '${roleId}' not found.`, cypher, params, executionMs: 10 };
+    return serializeNeo4j({ found: false, message: `Job role '${roleId}' not found.`, cypher, params, executionMs: 10 });
   }
 
   const skillsMap = new Map<string, any>((data.skills || []).map((s: any) => [s.id, s]));
@@ -296,7 +325,7 @@ export async function getRoleRoadmap(roleId: string) {
     }
   });
 
-  return {
+  return serializeNeo4j({
     found: true,
     roleId: role.id,
     title: role.title,
@@ -309,15 +338,15 @@ export async function getRoleRoadmap(roleId: string) {
     cypher,
     params,
     executionMs: Math.max(15, Date.now() - startTime),
-  };
+  });
 }
 
 export function getAllSkillsList() {
   const data = getCachedDataset();
-  return data.skills || [];
+  return serializeNeo4j(data.skills || []);
 }
 
 export function getAllRolesList() {
   const data = getCachedDataset();
-  return data.job_roles || [];
+  return serializeNeo4j(data.job_roles || []);
 }

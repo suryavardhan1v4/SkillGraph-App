@@ -90,7 +90,8 @@ export const NodeInspector: React.FC<NodeInspectorProps> = ({
               {skill.difficulty}
             </span>
             <span className="text-[11px] text-amber-400">
-              {'★'.repeat(skill.importance || 4) + '☆'.repeat(5 - (skill.importance || 4))}
+              {'★'.repeat(Number(skill.importance?.low ?? skill.importance) || 4) +
+                '☆'.repeat(5 - (Number(skill.importance?.low ?? skill.importance) || 4))}
             </span>
           </div>
           <p className="text-xs text-gray-400 leading-relaxed">{skill.description}</p>
@@ -172,7 +173,7 @@ export const NodeInspector: React.FC<NodeInspectorProps> = ({
                     </a>
                     <div className="flex items-center justify-between text-[10px] text-gray-400">
                       <span>{course.provider}</span>
-                      <span>{course.durationHours}h</span>
+                      <span>{Number(course.durationHours?.low ?? course.durationHours) || 0}h</span>
                     </div>
                   </div>
                 );

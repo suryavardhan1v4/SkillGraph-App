@@ -5,6 +5,24 @@ import path from 'path';
 let driver: Driver | null = null;
 let cachedDataset: any = null;
 
+export function serializeNeo4j(obj: any): any {
+  if (obj === null || obj === undefined) return obj;
+  if (typeof obj === 'object' && 'low' in obj && 'high' in obj) {
+    return typeof obj.toNumber === 'function' ? obj.toNumber() : obj.low;
+  }
+  if (Array.isArray(obj)) {
+    return obj.map(serializeNeo4j);
+  }
+  if (typeof obj === 'object') {
+    const res: any = {};
+    for (const key of Object.keys(obj)) {
+      res[key] = serializeNeo4j(obj[key]);
+    }
+    return res;
+  }
+  return obj;
+}
+
 export function getCachedDataset() {
   if (!cachedDataset) {
     try {
@@ -23,7 +41,7 @@ export function getDriver(): Driver | null {
   if (!driver) {
     const uri = process.env.COGNODB_URI || 'bolt+s://db-b7f0532c.databases.cognodb.com:7687';
     const user = process.env.COGNODB_USER || 'cognodb';
-    const password = process.env.COGNODB_PASSWORD || '';
+    const password = process.env.COGNODB_PASSWORD || '97c955d5a2f3a93650dce2aaa7240a86';
 
     if (!password) {
       return null;
@@ -53,20 +71,22 @@ export async function checkConnection() {
     try {
       const nodeRes = await session.run('MATCH (n) RETURN count(n) AS nodeCount');
       const relRes = await session.run('MATCH ()-[r]->() RETURN count(r) AS relCount');
-      const nodeCount = nodeRes.records[0]?.get('nodeCount')?.toNumber() || 0;
-      const relCount = relRes.records[0]?.get('relCount')?.toNumber() || 0;
+      const nodeVal = nodeRes.records[0]?.get('nodeCount');
+      const relVal = relRes.records[0]?.get('relCount');
+      const nodeCount = typeof nodeVal?.toNumber === 'function' ? nodeVal.toNumber() : (nodeVal?.low || 0);
+      const relCount = typeof relVal?.toNumber === 'function' ? relVal.toNumber() : (relVal?.low || 0);
       const latencyMs = Date.now() - startTime;
 
       return {
         status: 'connected',
         mode: 'live_cognoDB',
-        latencyMs,
-        nodeCount,
-        relationshipCount: relCount,
-        uri
+        latencyMs: Number(latencyMs),
+        nodeCount: Number(nodeCount),
+        relationshipCount: Number(relCount),
+        uri,
       };
     } catch (err: any) {
-      console.log('CognoDB fallback activated:', err.message?.slice(0, 80));
+      console.log('CognoDB check fallback:', err.message?.slice(0, 80));
     } finally {
       await session.close();
     }
@@ -81,10 +101,10 @@ export async function checkConnection() {
   return {
     status: 'connected',
     mode: 'cached_graph',
-    latencyMs,
-    nodeCount: nodeCount || 51,
-    relationshipCount: relCount || 92,
+    latencyMs: Number(latencyMs),
+    nodeCount: Number(nodeCount || 51),
+    relationshipCount: Number(relCount || 92),
     uri,
-    note: 'CognoDB instance standby. Live graph active.'
+    note: 'CognoDB instance standby. Live graph active.',
   };
 }

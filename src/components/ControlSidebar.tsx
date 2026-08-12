@@ -149,7 +149,9 @@ export const ControlSidebar: React.FC<ControlSidebarProps> = ({
                             <span>{course.title}</span>
                             <ExternalLink className="w-3 h-3" />
                           </a>
-                          <span className="text-[10px] text-gray-400 font-mono">{course.durationHours}h</span>
+                          <span className="text-[10px] text-gray-400 font-mono">
+                            {Number(course.durationHours?.low ?? course.durationHours) || 0}h
+                          </span>
                         </div>
                         <div className="flex items-center gap-2 text-[10px] text-gray-400">
                           <span className="px-1.5 py-0.5 rounded bg-gray-800 text-gray-300 font-medium">{course.provider}</span>
