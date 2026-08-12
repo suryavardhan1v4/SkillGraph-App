@@ -232,21 +232,21 @@ export default function HomePage() {
 
   if (!mounted) {
     return (
-      <div className="flex-1 flex flex-col h-screen overflow-hidden bg-[#060913] text-white">
-        <header className="h-16 border-b border-gray-800/80 bg-[#080d1a]/95 px-6 flex items-center justify-between">
+      <div className="flex-1 flex flex-col h-screen overflow-hidden bg-[#f8fafc] text-slate-900">
+        <header className="h-16 border-b border-slate-200 bg-white/95 px-6 flex items-center justify-between shadow-sm">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 flex items-center justify-center font-bold">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-700 to-purple-600 flex items-center justify-center font-bold text-white shadow-md shadow-indigo-600/20">
               SG
             </div>
             <div>
-              <h1 className="text-base font-bold text-white tracking-tight">SkillGraph</h1>
-              <p className="text-xs text-gray-400">Career Roadmaps & Prerequisite Dependency Engine</p>
+              <h1 className="text-base font-bold text-slate-900 tracking-tight">SkillGraph</h1>
+              <p className="text-xs text-slate-500">Career Roadmaps & Prerequisite Dependency Engine</p>
             </div>
           </div>
         </header>
         <div className="flex-1 flex items-center justify-center">
-          <div className="flex items-center gap-3 text-indigo-400 text-sm font-medium">
-            <span className="w-4 h-4 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></span>
+          <div className="flex items-center gap-3 text-indigo-700 text-sm font-semibold">
+            <span className="w-4 h-4 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"></span>
             <span>Initializing SkillGraph Visualizer...</span>
           </div>
         </div>
@@ -255,7 +255,7 @@ export default function HomePage() {
   }
 
   return (
-    <div className="flex-1 flex flex-col h-screen overflow-hidden bg-[#060913]">
+    <div className="flex-1 flex flex-col h-screen overflow-hidden bg-[#f8fafc]">
       <Header
         dbHealth={dbHealth}
         onSeed={handleSeed}

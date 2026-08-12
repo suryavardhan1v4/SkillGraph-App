@@ -47,37 +47,40 @@ export const CypherConsole: React.FC<CypherConsoleProps> = ({
   };
 
   return (
-    <div className="border-t border-gray-800/80 bg-[#090e1c]/95 backdrop-blur-md z-30 transition-all duration-300">
+    <div className="border-t border-slate-200 bg-white/95 backdrop-blur-md z-30 transition-all duration-300 shadow-sm">
       {/* Console Bar Strip */}
-      <div className="h-12 px-4 flex items-center justify-between text-xs cursor-pointer select-none" onClick={() => setIsExpanded(!isExpanded)}>
+      <div
+        className="h-12 px-4 flex items-center justify-between text-xs cursor-pointer select-none"
+        onClick={() => setIsExpanded(!isExpanded)}
+      >
         <div className="flex items-center gap-3 overflow-hidden">
-          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-indigo-950/80 border border-indigo-800/60 text-indigo-300 font-bold shrink-0 shadow-sm">
-            <Terminal className="w-3.5 h-3.5 text-indigo-400" />
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-indigo-50 border border-indigo-200 text-indigo-700 font-bold shrink-0 shadow-sm">
+            <Terminal className="w-3.5 h-3.5 text-indigo-600" />
             <span>openCypher Live REPL</span>
           </div>
 
-          <code className="font-mono text-[11px] text-emerald-300 truncate max-w-2xl bg-black/50 px-2.5 py-1 rounded-lg border border-gray-800/80 shadow-inner">
+          <code className="font-mono text-[11px] text-slate-800 truncate max-w-2xl bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200 shadow-inner">
             {currentCypher.replace(/\s+/g, ' ').trim()}
           </code>
         </div>
 
         <div className="flex items-center gap-3 shrink-0" onClick={e => e.stopPropagation()}>
-          <div className="flex items-center gap-1.5 font-mono text-[11px] text-emerald-400 bg-emerald-950/40 px-2.5 py-1 rounded-lg border border-emerald-800/40">
-            <Clock className="w-3 h-3 text-emerald-400 animate-pulse" />
+          <div className="flex items-center gap-1.5 font-mono text-[11px] text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200 font-bold">
+            <Clock className="w-3 h-3 text-emerald-600 animate-pulse" />
             <span>⚡ {currentLatency}ms</span>
           </div>
 
           <button
             onClick={handleCopy}
-            className="p-1.5 rounded-lg bg-gray-800/80 hover:bg-gray-700 text-gray-400 hover:text-white transition"
+            className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 border border-slate-200 transition"
             title="Copy Cypher Query"
           >
-            {copied ? <CheckCircle className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+            {copied ? <CheckCircle className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
           </button>
 
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="flex items-center gap-1 px-2 py-1 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs transition"
+            className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 text-xs font-semibold transition"
           >
             <span>{isExpanded ? 'Collapse' : 'Query Sandbox'}</span>
             {isExpanded ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronUp className="w-3.5 h-3.5" />}
@@ -87,33 +90,33 @@ export const CypherConsole: React.FC<CypherConsoleProps> = ({
 
       {/* Expanded Sandbox Panel */}
       {isExpanded && (
-        <div className="p-4 border-t border-gray-800 bg-[#070b16] space-y-3">
+        <div className="p-4 border-t border-slate-200 bg-slate-50 space-y-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-xs font-bold text-gray-300">
-              <Zap className="w-4 h-4 text-purple-400" />
+            <div className="flex items-center gap-2 text-xs font-bold text-slate-800">
+              <Zap className="w-4 h-4 text-purple-600" />
               <span>Interactive openCypher Scenarios (Click to Execute on CognoDB):</span>
             </div>
-            <span className="text-[11px] text-gray-500 font-mono">Protocol: Bolt 5.0+ | Engine: openCypher</span>
+            <span className="text-[11px] text-slate-500 font-mono">Protocol: Bolt 5.0+ | Engine: openCypher</span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2.5">
             {PRESET_QUERIES.map(preset => (
               <button
                 key={preset.name}
                 onClick={() => onExecutePreset(preset.name)}
-                className="p-3 rounded-xl bg-gray-900/80 border border-gray-800 hover:border-indigo-600/80 hover:bg-indigo-950/20 text-left transition group space-y-1 shadow-sm"
+                className="p-3 rounded-xl bg-white border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/50 text-left transition group space-y-1 shadow-sm"
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-white group-hover:text-indigo-300">{preset.name}</span>
-                  <Play className="w-3 h-3 text-indigo-400 opacity-0 group-hover:opacity-100 transition" />
+                  <span className="text-xs font-bold text-slate-900 group-hover:text-indigo-700">{preset.name}</span>
+                  <Play className="w-3 h-3 text-indigo-600 opacity-0 group-hover:opacity-100 transition" />
                 </div>
-                <p className="text-[10px] text-gray-400 line-clamp-1">{preset.label}</p>
+                <p className="text-[10px] text-slate-500 line-clamp-1">{preset.label}</p>
               </button>
             ))}
           </div>
 
-          <div className="relative rounded-xl bg-black/60 border border-gray-800 p-3 overflow-x-auto">
-            <pre className="text-xs font-mono text-emerald-300 leading-relaxed whitespace-pre-wrap">
+          <div className="relative rounded-xl bg-slate-900 border border-slate-800 p-3.5 overflow-x-auto shadow-inner">
+            <pre className="text-xs font-mono text-emerald-400 leading-relaxed whitespace-pre-wrap">
               {currentCypher}
             </pre>
           </div>

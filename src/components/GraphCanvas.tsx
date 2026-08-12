@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect, useState, useImperativeHandle, forwardRef } from 'react';
 import dynamic from 'next/dynamic';
-import { Plus, Minus, Maximize, RotateCcw, MousePointer, Activity } from 'lucide-react';
+import { Plus, Minus, Maximize, RotateCcw, MousePointer } from 'lucide-react';
 
 const ForceGraph2D = dynamic(() => import('react-force-graph-2d'), { ssr: false });
 
@@ -20,14 +20,14 @@ interface GraphCanvasProps {
 }
 
 const CATEGORY_COLORS: Record<string, string> = {
-  'AI & ML': '#a855f7',
-  'Core Programming': '#6366f1',
-  'Backend & Cloud': '#06b6d4',
-  'Frontend': '#10b981',
-  'Data Engineering': '#f43f5e',
-  'JobRole': '#f59e0b',
-  'Course': '#3b82f6',
-  Default: '#94a3b8',
+  'AI & ML': '#8b5cf6',
+  'Core Programming': '#4f46e5',
+  'Backend & Cloud': '#0891b2',
+  'Frontend': '#059669',
+  'Data Engineering': '#e11d48',
+  'JobRole': '#d97706',
+  'Course': '#2563eb',
+  Default: '#64748b',
 };
 
 export const GraphCanvas = forwardRef<GraphCanvasRef, GraphCanvasProps>(
@@ -74,31 +74,31 @@ export const GraphCanvas = forwardRef<GraphCanvasRef, GraphCanvasProps>(
     };
 
     return (
-      <main ref={containerRef} className="flex-1 relative flex flex-col bg-[#060913] overflow-hidden">
+      <main ref={containerRef} className="flex-1 relative flex flex-col bg-[#f8fafc] overflow-hidden">
         {typeof window !== 'undefined' && (
           <ForceGraph2D
             ref={fgRef}
             width={dimensions.width}
             height={dimensions.height}
             graphData={graphData}
-            backgroundColor="#060913"
+            backgroundColor="#f8fafc"
             nodeId="id"
             nodeLabel={(node: any) => `${node.name} (${node.category})`}
             nodeRelSize={7}
             linkSource="source"
             linkTarget="target"
-            linkDirectionalArrowLength={4}
+            linkDirectionalArrowLength={4.5}
             linkDirectionalArrowRelPos={1}
             linkCurvature={0.12}
             linkColor={(link: any) => {
-              if (highlightedLinks.has(link)) return '#a855f7';
-              return 'rgba(51, 65, 85, 0.4)';
+              if (highlightedLinks.has(link)) return '#6366f1';
+              return 'rgba(203, 213, 225, 0.7)';
             }}
-            linkWidth={(link: any) => (highlightedLinks.has(link) ? 3.5 : 1)}
+            linkWidth={(link: any) => (highlightedLinks.has(link) ? 3.5 : 1.2)}
             linkDirectionalParticles={(link: any) => (highlightedLinks.has(link) ? 4 : 0)}
             linkDirectionalParticleWidth={3.5}
             linkDirectionalParticleSpeed={0.009}
-            linkDirectionalParticleColor={() => '#38bdf8'}
+            linkDirectionalParticleColor={() => '#4f46e5'}
             d3AlphaDecay={0.02}
             d3VelocityDecay={0.3}
             nodeCanvasObject={(node: any, ctx: CanvasRenderingContext2D, globalScale: number) => {
@@ -111,16 +111,16 @@ export const GraphCanvas = forwardRef<GraphCanvasRef, GraphCanvasProps>(
               const radius = isSelected ? baseRadius * 1.4 : baseRadius;
 
               ctx.save();
-              ctx.globalAlpha = isDimmed ? 0.16 : 1.0;
+              ctx.globalAlpha = isDimmed ? 0.18 : 1.0;
 
               // Outer glow halo for selected or active nodes
               if (isSelected || (highlightedNodes.size > 0 && highlightedNodes.has(node.id))) {
                 ctx.beginPath();
                 ctx.arc(node.x, node.y, radius + 5, 0, 2 * Math.PI, false);
                 ctx.fillStyle = color;
-                ctx.globalAlpha = 0.35;
+                ctx.globalAlpha = 0.25;
                 ctx.fill();
-                ctx.globalAlpha = isDimmed ? 0.16 : 1.0;
+                ctx.globalAlpha = isDimmed ? 0.18 : 1.0;
               }
 
               // Main node circle
@@ -128,12 +128,12 @@ export const GraphCanvas = forwardRef<GraphCanvasRef, GraphCanvasProps>(
               ctx.arc(node.x, node.y, radius, 0, 2 * Math.PI, false);
               ctx.fillStyle = color;
               ctx.fill();
-              ctx.lineWidth = isSelected ? 2.5 : 1.5;
-              ctx.strokeStyle = isSelected ? '#ffffff' : 'rgba(255,255,255,0.45)';
+              ctx.lineWidth = isSelected ? 3 : 1.5;
+              ctx.strokeStyle = isSelected ? '#1e1b4b' : '#ffffff';
               ctx.stroke();
 
               // High-clarity Node Labels
-              if (globalScale > 0.85 || isHighlighted || isSelected) {
+              if (globalScale > 0.8 || isHighlighted || isSelected) {
                 const label = node.name;
                 const fontSize = Math.max(3.5, 11.5 / globalScale);
                 ctx.font = `600 ${fontSize}px Inter, sans-serif`;
@@ -143,15 +143,23 @@ export const GraphCanvas = forwardRef<GraphCanvasRef, GraphCanvasProps>(
                 const textWidth = ctx.measureText(label).width;
                 const bckgDimensions = [textWidth + 8, fontSize + 4];
 
-                ctx.fillStyle = 'rgba(8, 13, 26, 0.9)';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+                ctx.strokeStyle = 'rgba(226, 232, 240, 0.9)';
+                ctx.lineWidth = 1;
                 ctx.fillRect(
                   node.x - bckgDimensions[0] / 2,
                   node.y + radius + 4,
                   bckgDimensions[0],
                   bckgDimensions[1]
                 );
+                ctx.strokeRect(
+                  node.x - bckgDimensions[0] / 2,
+                  node.y + radius + 4,
+                  bckgDimensions[0],
+                  bckgDimensions[1]
+                );
 
-                ctx.fillStyle = isDimmed ? 'rgba(148, 163, 184, 0.25)' : '#f8fafc';
+                ctx.fillStyle = isDimmed ? '#94a3b8' : '#0f172a';
                 ctx.fillText(label, node.x, node.y + radius + 4 + bckgDimensions[1] / 2);
               }
 
@@ -165,28 +173,28 @@ export const GraphCanvas = forwardRef<GraphCanvasRef, GraphCanvasProps>(
         <div className="absolute top-4 right-4 flex flex-col gap-2 z-10">
           <button
             onClick={handleZoomIn}
-            className="w-9 h-9 rounded-xl bg-gray-900/90 border border-gray-700/80 text-gray-300 hover:text-white hover:bg-gray-800 flex items-center justify-center shadow-xl transition"
+            className="w-9 h-9 rounded-xl bg-white border border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-50 flex items-center justify-center shadow-sm transition"
             title="Zoom In"
           >
             <Plus className="w-4 h-4" />
           </button>
           <button
             onClick={handleZoomOut}
-            className="w-9 h-9 rounded-xl bg-gray-900/90 border border-gray-700/80 text-gray-300 hover:text-white hover:bg-gray-800 flex items-center justify-center shadow-xl transition"
+            className="w-9 h-9 rounded-xl bg-white border border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-50 flex items-center justify-center shadow-sm transition"
             title="Zoom Out"
           >
             <Minus className="w-4 h-4" />
           </button>
           <button
             onClick={handleFit}
-            className="w-9 h-9 rounded-xl bg-gray-900/90 border border-gray-700/80 text-gray-300 hover:text-white hover:bg-gray-800 flex items-center justify-center shadow-xl transition"
+            className="w-9 h-9 rounded-xl bg-white border border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-50 flex items-center justify-center shadow-sm transition"
             title="Fit to Screen"
           >
             <Maximize className="w-4 h-4" />
           </button>
           <button
             onClick={onResetView}
-            className="w-9 h-9 rounded-xl bg-gray-900/90 border border-gray-700/80 text-gray-300 hover:text-white hover:bg-gray-800 flex items-center justify-center shadow-xl transition"
+            className="w-9 h-9 rounded-xl bg-white border border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-50 flex items-center justify-center shadow-sm transition"
             title="Reset Filters & View"
           >
             <RotateCcw className="w-4 h-4" />
@@ -194,8 +202,8 @@ export const GraphCanvas = forwardRef<GraphCanvasRef, GraphCanvasProps>(
         </div>
 
         {/* Real-time Interaction Hint Pill */}
-        <div className="absolute bottom-4 left-4 px-3.5 py-2 rounded-xl bg-gray-900/80 backdrop-blur-md border border-gray-800/90 text-[11px] text-gray-300 flex items-center gap-2.5 pointer-events-none shadow-lg">
-          <MousePointer className="w-3.5 h-3.5 text-indigo-400 animate-bounce" />
+        <div className="absolute bottom-4 left-4 px-3.5 py-2 rounded-xl bg-white/90 backdrop-blur-md border border-slate-200 text-[11px] text-slate-600 flex items-center gap-2.5 pointer-events-none shadow-sm font-medium">
+          <MousePointer className="w-3.5 h-3.5 text-indigo-600 animate-bounce" />
           <span>Click any node to inspect prerequisite trees • Drag to reposition • Scroll to zoom</span>
         </div>
       </main>
