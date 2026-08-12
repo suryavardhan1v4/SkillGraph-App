@@ -39,11 +39,11 @@ export function getCachedDataset() {
 
 export function getDriver(): Driver | null {
   if (!driver) {
-    const uri = process.env.COGNODB_URI || 'bolt+s://db-b7f0532c.databases.cognodb.com:7687';
+    const uri = process.env.COGNODB_URI;
     const user = process.env.COGNODB_USER || 'cognodb';
-    const password = process.env.COGNODB_PASSWORD || '97c955d5a2f3a93650dce2aaa7240a86';
+    const password = process.env.COGNODB_PASSWORD;
 
-    if (!password) {
+    if (!uri || !password) {
       return null;
     }
 
@@ -63,7 +63,7 @@ export function getDriver(): Driver | null {
 
 export async function checkConnection() {
   const startTime = Date.now();
-  const uri = process.env.COGNODB_URI || 'bolt+s://db-b7f0532c.databases.cognodb.com:7687';
+  const uri = process.env.COGNODB_URI || 'Not Configured';
   const d = getDriver();
 
   if (d) {
