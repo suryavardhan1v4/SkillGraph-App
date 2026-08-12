@@ -286,42 +286,42 @@
       "id": "ai_llm_engineer",
       "title": "AI & LLM Systems Engineer",
       "department": "AI Research & Applications",
-      "avgSalary": "$165,000 / yr",
+      "avgSalary": "₹32 - 48 LPA",
       "description": "Builds autonomous agents, RAG pipelines, fine-tunes LLMs, and deploys high-performance GenAI applications."
     },
     {
       "id": "fullstack_engineer",
       "title": "Full-Stack Web Engineer",
       "department": "Product Engineering",
-      "avgSalary": "$140,000 / yr",
+      "avgSalary": "₹20 - 32 LPA",
       "description": "Designs scalable full-stack applications with React, TypeScript, Next.js, and high-performance backend microservices."
     },
     {
       "id": "cloud_data_engineer",
       "title": "Cloud Data Platform Engineer",
       "department": "Data Platform",
-      "avgSalary": "$150,000 / yr",
+      "avgSalary": "₹24 - 38 LPA",
       "description": "Architects modern data lakehouses, scalable ETL pipelines, and analytical data warehouses on cloud infrastructure."
     },
     {
       "id": "mlops_engineer",
       "title": "MLOps & AI Infrastructure Engineer",
       "department": "Infrastructure & Core ML",
-      "avgSalary": "$160,000 / yr",
+      "avgSalary": "₹28 - 45 LPA",
       "description": "Deploys, monitors, scales, and manages containerized machine learning models and inference engines on Kubernetes."
     },
     {
       "id": "graph_ai_specialist",
       "title": "Knowledge Graph & AI Specialist",
       "department": "Graph Intelligence",
-      "avgSalary": "$155,000 / yr",
+      "avgSalary": "₹26 - 42 LPA",
       "description": "Develops graph-native AI systems combining Knowledge Graphs (CognoDB/Neo4j) with LLMs for hallucination-free reasoning."
     },
     {
       "id": "backend_distributed_architect",
       "title": "Distributed Backend Architect",
       "department": "Core Platform",
-      "avgSalary": "$170,000 / yr",
+      "avgSalary": "₹35 - 55 LPA",
       "description": "Architects resilient, fault-tolerant distributed systems, caching layers, and high-throughput microservices."
     }
   ],
