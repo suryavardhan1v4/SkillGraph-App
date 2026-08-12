@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { X, Layers, ExternalLink, GraduationCap, ChevronRight, Zap } from 'lucide-react';
+import React, { useEffect, useState, useRef } from 'react';
+import { X, ExternalLink, GraduationCap, ChevronRight, Zap } from 'lucide-react';
 
 interface NodeInspectorProps {
   skillId: string;
@@ -30,27 +30,41 @@ export const NodeInspector: React.FC<NodeInspectorProps> = ({
     importance: 4,
   };
 
+  const onUpdateCypherRef = useRef(onUpdateCypher);
   useEffect(() => {
+    onUpdateCypherRef.current = onUpdateCypher;
+  }, [onUpdateCypher]);
+
+  useEffect(() => {
+    let isCancelled = false;
     async function fetchPrerequisites() {
       setLoading(true);
       try {
         const res = await fetch(`/api/prerequisites/${skillId}`);
         const data = await res.json();
-        setPrereqData(data);
-        if (onUpdateCypher && data.cypher) {
-          onUpdateCypher(data.cypher, data.executionMs || 15);
+        if (!isCancelled) {
+          setPrereqData(data);
+          if (onUpdateCypherRef.current && data.cypher) {
+            onUpdateCypherRef.current(data.cypher, data.executionMs || 15);
+          }
         }
       } catch (err) {
         console.error('Prereq error:', err);
       } finally {
-        setLoading(false);
+        if (!isCancelled) {
+          setLoading(false);
+        }
       }
     }
 
     if (skillId) {
       fetchPrerequisites();
     }
-  }, [skillId, onUpdateCypher]);
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [skillId]);
 
   // Find incoming (what unlocks this skill)
   const incoming = graphData.links.filter(l => {
