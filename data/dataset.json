@@ -1,0 +1,499 @@
+{
+  "skills": [
+    {
+      "id": "python",
+      "name": "Python Programming",
+      "category": "Core Programming",
+      "difficulty": "Beginner",
+      "importance": 5,
+      "description": "Core syntax, data types, OOP principles, and standard libraries."
+    },
+    {
+      "id": "data_structures",
+      "name": "Data Structures & Algorithms",
+      "category": "Core Programming",
+      "difficulty": "Intermediate",
+      "importance": 5,
+      "description": "Trees, graphs, dynamic programming, time/space complexity."
+    },
+    {
+      "id": "git",
+      "name": "Git & Version Control",
+      "category": "Core Programming",
+      "difficulty": "Beginner",
+      "importance": 4,
+      "description": "Branching, rebasing, pull requests, and collaborative Git workflows."
+    },
+    {
+      "id": "sql",
+      "name": "SQL & Relational Databases",
+      "category": "Core Programming",
+      "difficulty": "Beginner",
+      "importance": 5,
+      "description": "Complex joins, indexing, query optimization, and schema design."
+    },
+    {
+      "id": "math_stats",
+      "name": "Linear Algebra & Statistics",
+      "category": "AI & ML",
+      "difficulty": "Intermediate",
+      "importance": 4,
+      "description": "Matrix operations, probability distributions, hypothesis testing."
+    },
+    {
+      "id": "pandas_numpy",
+      "name": "NumPy & Pandas",
+      "category": "AI & ML",
+      "difficulty": "Beginner",
+      "importance": 4,
+      "description": "Data wrangling, matrix manipulation, tabular transformations."
+    },
+    {
+      "id": "ml_foundations",
+      "name": "Machine Learning Foundations",
+      "category": "AI & ML",
+      "difficulty": "Intermediate",
+      "importance": 5,
+      "description": "Supervised & unsupervised algorithms, regression, decision trees, evaluation metrics."
+    },
+    {
+      "id": "deep_learning",
+      "name": "Deep Learning & Neural Networks",
+      "category": "AI & ML",
+      "difficulty": "Intermediate",
+      "importance": 5,
+      "description": "Backpropagation, CNNs, RNNs, PyTorch and TensorFlow."
+    },
+    {
+      "id": "nlp_basics",
+      "name": "Natural Language Processing (NLP)",
+      "category": "AI & ML",
+      "difficulty": "Intermediate",
+      "importance": 4,
+      "description": "Tokenization, TF-IDF, Word2Vec, semantic similarity."
+    },
+    {
+      "id": "transformers",
+      "name": "Transformer Architecture & LLMs",
+      "category": "AI & ML",
+      "difficulty": "Advanced",
+      "importance": 5,
+      "description": "Self-attention mechanisms, BERT, GPT, HuggingFace Transformers."
+    },
+    {
+      "id": "vector_databases",
+      "name": "Vector Databases & Embeddings",
+      "category": "AI & ML",
+      "difficulty": "Intermediate",
+      "importance": 5,
+      "description": "Embedding models, HNSW indexing, similarity search in Pinecone/Milvus."
+    },
+    {
+      "id": "rag_systems",
+      "name": "Retrieval-Augmented Generation (RAG)",
+      "category": "AI & ML",
+      "difficulty": "Advanced",
+      "importance": 5,
+      "description": "Document chunking, hybrid search, re-ranking, context injection."
+    },
+    {
+      "id": "prompt_engineering",
+      "name": "Prompt Engineering & Evaluation",
+      "category": "AI & ML",
+      "difficulty": "Intermediate",
+      "importance": 4,
+      "description": "Few-shot prompting, chain-of-thought, hallucination reduction."
+    },
+    {
+      "id": "llm_agents",
+      "name": "Autonomous AI Agents & Tool Calling",
+      "category": "AI & ML",
+      "difficulty": "Advanced",
+      "importance": 5,
+      "description": "ReAct framework, multi-agent orchestration, function calling."
+    },
+    {
+      "id": "model_fine_tuning",
+      "name": "LLM Fine-Tuning & LoRA",
+      "category": "AI & ML",
+      "difficulty": "Advanced",
+      "importance": 4,
+      "description": "QLoRA, PEFT, instruction dataset curation, alignment."
+    },
+    {
+      "id": "javascript",
+      "name": "Modern JavaScript (ES6+)",
+      "category": "Frontend",
+      "difficulty": "Beginner",
+      "importance": 5,
+      "description": "Async/await, closures, event loop, DOM manipulation."
+    },
+    {
+      "id": "typescript",
+      "name": "TypeScript",
+      "category": "Core Programming",
+      "difficulty": "Intermediate",
+      "importance": 5,
+      "description": "Strict type safety, generics, interfaces, compiler options."
+    },
+    {
+      "id": "html_css",
+      "name": "HTML5 & Modern CSS",
+      "category": "Frontend",
+      "difficulty": "Beginner",
+      "importance": 4,
+      "description": "Responsive layout, Flexbox, CSS Grid, semantic HTML."
+    },
+    {
+      "id": "react",
+      "name": "React.js",
+      "category": "Frontend",
+      "difficulty": "Intermediate",
+      "importance": 5,
+      "description": "Hooks, virtual DOM, component lifecycles, performance tuning."
+    },
+    {
+      "id": "nextjs",
+      "name": "Next.js & Server Components",
+      "category": "Frontend",
+      "difficulty": "Intermediate",
+      "importance": 5,
+      "description": "App Router, SSR, SSG, server actions, API routes."
+    },
+    {
+      "id": "tailwind_css",
+      "name": "Tailwind CSS & Design Systems",
+      "category": "Frontend",
+      "difficulty": "Beginner",
+      "importance": 4,
+      "description": "Utility-first CSS, dark mode theming, glassmorphic UI."
+    },
+    {
+      "id": "rest_apis",
+      "name": "RESTful API Design",
+      "category": "Backend & Cloud",
+      "difficulty": "Beginner",
+      "importance": 5,
+      "description": "HTTP methods, status codes, OpenAPI specs, authentication."
+    },
+    {
+      "id": "fastapi_express",
+      "name": "FastAPI & Express Frameworks",
+      "category": "Backend & Cloud",
+      "difficulty": "Intermediate",
+      "importance": 5,
+      "description": "Async request handling, middleware, Pydantic validations."
+    },
+    {
+      "id": "nosql_databases",
+      "name": "NoSQL Databases (MongoDB)",
+      "category": "Backend & Cloud",
+      "difficulty": "Intermediate",
+      "importance": 4,
+      "description": "Document modeling, aggregation pipelines, replica sets."
+    },
+    {
+      "id": "graph_databases",
+      "name": "Graph Databases & Cypher (CognoDB/Neo4j)",
+      "category": "Backend & Cloud",
+      "difficulty": "Intermediate",
+      "importance": 5,
+      "description": "Property graphs, openCypher, multi-hop traversals, index-free adjacency."
+    },
+    {
+      "id": "caching_redis",
+      "name": "Redis & In-Memory Caching",
+      "category": "Backend & Cloud",
+      "difficulty": "Intermediate",
+      "importance": 4,
+      "description": "Key-value stores, TTL, pub/sub, session management."
+    },
+    {
+      "id": "microservices",
+      "name": "Microservices Architecture",
+      "category": "Backend & Cloud",
+      "difficulty": "Advanced",
+      "importance": 5,
+      "description": "Service discovery, API gateways, event-driven messaging."
+    },
+    {
+      "id": "distributed_systems",
+      "name": "Distributed Systems Principles",
+      "category": "Backend & Cloud",
+      "difficulty": "Advanced",
+      "importance": 5,
+      "description": "CAP theorem, consensus algorithms, partition tolerance, RPC."
+    },
+    {
+      "id": "linux_basics",
+      "name": "Linux & Bash Scripting",
+      "category": "Backend & Cloud",
+      "difficulty": "Beginner",
+      "importance": 4,
+      "description": "Shell commands, file permissions, process management, SSH."
+    },
+    {
+      "id": "docker",
+      "name": "Docker & Containerization",
+      "category": "Backend & Cloud",
+      "difficulty": "Intermediate",
+      "importance": 5,
+      "description": "Dockerfile optimization, multi-stage builds, compose."
+    },
+    {
+      "id": "kubernetes",
+      "name": "Kubernetes & Container Orchestration",
+      "category": "Backend & Cloud",
+      "difficulty": "Advanced",
+      "importance": 5,
+      "description": "Pods, Deployments, Services, Helm charts, ingress controllers."
+    },
+    {
+      "id": "ci_cd_pipelines",
+      "name": "CI/CD & GitHub Actions",
+      "category": "Backend & Cloud",
+      "difficulty": "Intermediate",
+      "importance": 4,
+      "description": "Automated testing, linting, Docker build & deployment pipelines."
+    },
+    {
+      "id": "etl_pipelines",
+      "name": "ETL & Data Pipelines",
+      "category": "Data Engineering",
+      "difficulty": "Intermediate",
+      "importance": 5,
+      "description": "Batch & streaming ingestion, schema validation, data transformations."
+    },
+    {
+      "id": "data_warehousing",
+      "name": "Data Warehousing & Dimensional Modeling",
+      "category": "Data Engineering",
+      "difficulty": "Intermediate",
+      "importance": 4,
+      "description": "Star/Snowflake schemas, BigQuery, Snowflake, partitioning."
+    },
+    {
+      "id": "apache_spark",
+      "name": "Apache Spark & PySpark",
+      "category": "Data Engineering",
+      "difficulty": "Advanced",
+      "importance": 5,
+      "description": "Distributed dataframes, RDDs, partitioning, Spark SQL."
+    }
+  ],
+  "job_roles": [
+    {
+      "id": "ai_llm_engineer",
+      "title": "AI & LLM Systems Engineer",
+      "department": "AI Research & Applications",
+      "avgSalary": "$165,000 / yr",
+      "description": "Builds autonomous agents, RAG pipelines, fine-tunes LLMs, and deploys high-performance GenAI applications."
+    },
+    {
+      "id": "fullstack_engineer",
+      "title": "Full-Stack Web Engineer",
+      "department": "Product Engineering",
+      "avgSalary": "$140,000 / yr",
+      "description": "Designs scalable full-stack applications with React, TypeScript, Next.js, and high-performance backend microservices."
+    },
+    {
+      "id": "cloud_data_engineer",
+      "title": "Cloud Data Platform Engineer",
+      "department": "Data Platform",
+      "avgSalary": "$150,000 / yr",
+      "description": "Architects modern data lakehouses, scalable ETL pipelines, and analytical data warehouses on cloud infrastructure."
+    },
+    {
+      "id": "mlops_engineer",
+      "title": "MLOps & AI Infrastructure Engineer",
+      "department": "Infrastructure & Core ML",
+      "avgSalary": "$160,000 / yr",
+      "description": "Deploys, monitors, scales, and manages containerized machine learning models and inference engines on Kubernetes."
+    },
+    {
+      "id": "graph_ai_specialist",
+      "title": "Knowledge Graph & AI Specialist",
+      "department": "Graph Intelligence",
+      "avgSalary": "$155,000 / yr",
+      "description": "Develops graph-native AI systems combining Knowledge Graphs (CognoDB/Neo4j) with LLMs for hallucination-free reasoning."
+    },
+    {
+      "id": "backend_distributed_architect",
+      "title": "Distributed Backend Architect",
+      "department": "Core Platform",
+      "avgSalary": "$170,000 / yr",
+      "description": "Architects resilient, fault-tolerant distributed systems, caching layers, and high-throughput microservices."
+    }
+  ],
+  "courses": [
+    {
+      "id": "cs50_python",
+      "title": "CS50: Introduction to Programming with Python",
+      "provider": "Harvard / edX",
+      "url": "https://cs50.harvard.edu/python",
+      "durationHours": 35
+    },
+    {
+      "id": "dl_spec",
+      "title": "Deep Learning Specialization",
+      "provider": "DeepLearning.AI / Coursera",
+      "url": "https://www.coursera.org/specializations/deep-learning",
+      "durationHours": 60
+    },
+    {
+      "id": "rag_mastery",
+      "title": "Building Production-Grade RAG Systems",
+      "provider": "DeepLearning.AI",
+      "url": "https://www.deeplearning.ai/short-courses",
+      "durationHours": 12
+    },
+    {
+      "id": "huggingface_nlp",
+      "title": "HuggingFace NLP & Transformer Course",
+      "provider": "Hugging Face",
+      "url": "https://huggingface.co/learn/nlp-course",
+      "durationHours": 25
+    },
+    {
+      "id": "ai_agents_crewai",
+      "title": "Multi-Agent AI Systems with LangGraph & CrewAI",
+      "provider": "DeepLearning.AI",
+      "url": "https://www.deeplearning.ai/short-courses",
+      "durationHours": 10
+    },
+    {
+      "id": "graph_databases_fundamentals",
+      "title": "Graph Database Foundations & Cypher Querying",
+      "provider": "Neo4j GraphAcademy",
+      "url": "https://graphacademy.neo4j.com",
+      "durationHours": 15
+    },
+    {
+      "id": "fullstack_open",
+      "title": "Full Stack Open: Deep Dive into Modern Web Dev",
+      "provider": "University of Helsinki",
+      "url": "https://fullstackopen.com",
+      "durationHours": 70
+    },
+    {
+      "id": "docker_mastery",
+      "title": "Docker & Kubernetes: The Complete Guide",
+      "provider": "Udemy / Stephen Grider",
+      "url": "https://www.udemy.com",
+      "durationHours": 22
+    },
+    {
+      "id": "distributed_systems_mit",
+      "title": "MIT 6.824: Distributed Systems",
+      "provider": "MIT OpenCourseWare",
+      "url": "https://pdos.csail.mit.edu/6.824",
+      "durationHours": 45
+    },
+    {
+      "id": "data_engineering_zoomcamp",
+      "title": "Data Engineering Zoomcamp (Spark, BigQuery, Airflow)",
+      "provider": "DataTalks.Club",
+      "url": "https://github.com/DataTalksClub/data-engineering-zoomcamp",
+      "durationHours": 50
+    }
+  ],
+  "prerequisites": [
+    { "from": "python", "to": "pandas_numpy" },
+    { "from": "python", "to": "data_structures" },
+    { "from": "python", "to": "fastapi_express" },
+    { "from": "math_stats", "to": "ml_foundations" },
+    { "from": "pandas_numpy", "to": "ml_foundations" },
+    { "from": "data_structures", "to": "algorithms" },
+    { "from": "ml_foundations", "to": "deep_learning" },
+    { "from": "deep_learning", "to": "nlp_basics" },
+    { "from": "nlp_basics", "to": "transformers" },
+    { "from": "transformers", "to": "vector_databases" },
+    { "from": "transformers", "to": "rag_systems" },
+    { "from": "transformers", "to": "model_fine_tuning" },
+    { "from": "vector_databases", "to": "rag_systems" },
+    { "from": "prompt_engineering", "to": "rag_systems" },
+    { "from": "rag_systems", "to": "llm_agents" },
+    { "from": "prompt_engineering", "to": "llm_agents" },
+    { "from": "html_css", "to": "javascript" },
+    { "from": "javascript", "to": "typescript" },
+    { "from": "javascript", "to": "react" },
+    { "from": "typescript", "to": "react" },
+    { "from": "react", "to": "nextjs" },
+    { "from": "html_css", "to": "tailwind_css" },
+    { "from": "git", "to": "ci_cd_pipelines" },
+    { "from": "linux_basics", "to": "docker" },
+    { "from": "docker", "to": "kubernetes" },
+    { "from": "docker", "to": "ci_cd_pipelines" },
+    { "from": "rest_apis", "to": "fastapi_express" },
+    { "from": "sql", "to": "nosql_databases" },
+    { "from": "sql", "to": "data_warehousing" },
+    { "from": "sql", "to": "etl_pipelines" },
+    { "from": "data_structures", "to": "graph_databases" },
+    { "from": "fastapi_express", "to": "microservices" },
+    { "from": "microservices", "to": "distributed_systems" },
+    { "from": "caching_redis", "to": "distributed_systems" },
+    { "from": "python", "to": "apache_spark" },
+    { "from": "etl_pipelines", "to": "apache_spark" },
+    { "from": "graph_databases", "to": "rag_systems" }
+  ],
+  "role_requirements": [
+    { "role": "ai_llm_engineer", "skill": "python" },
+    { "role": "ai_llm_engineer", "skill": "transformers" },
+    { "role": "ai_llm_engineer", "skill": "vector_databases" },
+    { "role": "ai_llm_engineer", "skill": "rag_systems" },
+    { "role": "ai_llm_engineer", "skill": "llm_agents" },
+    { "role": "ai_llm_engineer", "skill": "prompt_engineering" },
+    { "role": "fullstack_engineer", "skill": "typescript" },
+    { "role": "fullstack_engineer", "skill": "react" },
+    { "role": "fullstack_engineer", "skill": "nextjs" },
+    { "role": "fullstack_engineer", "skill": "fastapi_express" },
+    { "role": "fullstack_engineer", "skill": "rest_apis" },
+    { "role": "fullstack_engineer", "skill": "nosql_databases" },
+    { "role": "cloud_data_engineer", "skill": "python" },
+    { "role": "cloud_data_engineer", "skill": "sql" },
+    { "role": "cloud_data_engineer", "skill": "etl_pipelines" },
+    { "role": "cloud_data_engineer", "skill": "data_warehousing" },
+    { "role": "cloud_data_engineer", "skill": "apache_spark" },
+    { "role": "mlops_engineer", "skill": "python" },
+    { "role": "mlops_engineer", "skill": "docker" },
+    { "role": "mlops_engineer", "skill": "kubernetes" },
+    { "role": "mlops_engineer", "skill": "ci_cd_pipelines" },
+    { "role": "mlops_engineer", "skill": "deep_learning" },
+    { "role": "graph_ai_specialist", "skill": "graph_databases" },
+    { "role": "graph_ai_specialist", "skill": "rag_systems" },
+    { "role": "graph_ai_specialist", "skill": "vector_databases" },
+    { "role": "graph_ai_specialist", "skill": "python" },
+    { "role": "backend_distributed_architect", "skill": "fastapi_express" },
+    { "role": "backend_distributed_architect", "skill": "microservices" },
+    { "role": "backend_distributed_architect", "skill": "distributed_systems" },
+    { "role": "backend_distributed_architect", "skill": "docker" },
+    { "role": "backend_distributed_architect", "skill": "caching_redis" }
+  ],
+  "course_teaches": [
+    { "course": "cs50_python", "skill": "python" },
+    { "course": "cs50_python", "skill": "git" },
+    { "course": "dl_spec", "skill": "math_stats" },
+    { "course": "dl_spec", "skill": "ml_foundations" },
+    { "course": "dl_spec", "skill": "deep_learning" },
+    { "course": "rag_mastery", "skill": "rag_systems" },
+    { "course": "rag_mastery", "skill": "vector_databases" },
+    { "course": "rag_mastery", "skill": "prompt_engineering" },
+    { "course": "huggingface_nlp", "skill": "nlp_basics" },
+    { "course": "huggingface_nlp", "skill": "transformers" },
+    { "course": "huggingface_nlp", "skill": "model_fine_tuning" },
+    { "course": "ai_agents_crewai", "skill": "llm_agents" },
+    { "course": "ai_agents_crewai", "skill": "prompt_engineering" },
+    { "course": "graph_databases_fundamentals", "skill": "graph_databases" },
+    { "course": "fullstack_open", "skill": "javascript" },
+    { "course": "fullstack_open", "skill": "typescript" },
+    { "course": "fullstack_open", "skill": "react" },
+    { "course": "fullstack_open", "skill": "rest_apis" },
+    { "course": "docker_mastery", "skill": "docker" },
+    { "course": "docker_mastery", "skill": "kubernetes" },
+    { "course": "distributed_systems_mit", "skill": "distributed_systems" },
+    { "course": "distributed_systems_mit", "skill": "microservices" },
+    { "course": "data_engineering_zoomcamp", "skill": "etl_pipelines" },
+    { "course": "data_engineering_zoomcamp", "skill": "data_warehousing" },
+    { "course": "data_engineering_zoomcamp", "skill": "apache_spark" }
+  ]
+}
