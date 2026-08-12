@@ -4,7 +4,7 @@ import React from 'react';
 import { Network, Database, Info } from 'lucide-react';
 
 interface HeaderProps {
-  dbHealth: { status: string; nodeCount?: number; relationshipCount?: number; latencyMs?: number; mode?: string };
+  dbHealth: { status: string; nodeCount?: any; relationshipCount?: any; latencyMs?: any; mode?: string };
   onSeed: () => void;
   onOpenModal: () => void;
   isSeeding: boolean;
