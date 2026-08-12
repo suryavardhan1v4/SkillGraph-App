@@ -281,7 +281,7 @@ export default function HomePage() {
         queryCount={queryCount}
       />
 
-      <div className="flex-1 flex overflow-hidden relative">
+      <div className="flex-1 flex min-h-0 overflow-hidden relative">
         <ControlSidebar
           roles={roles}
           skills={skills}

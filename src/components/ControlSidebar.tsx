@@ -41,6 +41,7 @@ export const ControlSidebar: React.FC<ControlSidebarProps> = ({
   const [startSkill, setStartSkill] = useState('python');
   const [endSkill, setEndSkill] = useState('llm_agents');
   const [knownSkills, setKnownSkills] = useState<Set<string>>(new Set(['python', 'data_structures', 'git', 'sql']));
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const toggleKnownSkill = (skillId: string) => {
     setKnownSkills(prev => {
@@ -375,30 +376,44 @@ export const ControlSidebar: React.FC<ControlSidebarProps> = ({
         </div>
       )}
 
-      {/* DOMAIN FILTER LEGEND */}
-      <div className="p-3.5 border-t border-slate-200 bg-slate-50 shrink-0">
-        <span className="text-[11px] font-bold text-slate-600 uppercase tracking-wider block mb-2">Filter Graph Domains</span>
-        <div className="grid grid-cols-2 gap-1.5 text-xs">
-          {[
-            { label: 'AI & ML', color: 'bg-purple-500' },
-            { label: 'Backend & Cloud', color: 'bg-cyan-500' },
-            { label: 'Frontend', color: 'bg-emerald-500' },
-            { label: 'Data Engineering', color: 'bg-rose-500' },
-            { label: 'Core Programming', color: 'bg-indigo-500' },
-          ].map(cat => (
-            <label key={cat.label} className="flex items-center gap-2 text-slate-700 cursor-pointer hover:text-slate-900">
-              <input
-                type="checkbox"
-                checked={selectedCategories.includes(cat.label)}
-                onChange={() => onToggleCategory(cat.label)}
-                className="accent-indigo-600 rounded"
-              />
-              <span className="flex items-center gap-1.5">
-                <span className={`w-2.5 h-2.5 rounded-full ${cat.color}`}></span> {cat.label}
-              </span>
-            </label>
-          ))}
-        </div>
+      {/* DOMAIN FILTER ACCORDION FOOTER */}
+      <div className="border-t border-slate-200 bg-slate-50 shrink-0">
+        <button
+          onClick={() => setIsFilterOpen(!isFilterOpen)}
+          className="w-full px-3.5 py-2 flex items-center justify-between text-[11px] font-bold text-slate-700 hover:text-indigo-600 transition"
+        >
+          <span className="flex items-center gap-1.5 uppercase tracking-wider">
+            <span>Filter Domains</span>
+            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-indigo-100 text-indigo-700">
+              {selectedCategories.length}/5
+            </span>
+          </span>
+          <ChevronDown className={`w-3.5 h-3.5 text-slate-500 transition-transform duration-200 ${isFilterOpen ? 'rotate-180' : ''}`} />
+        </button>
+
+        {isFilterOpen && (
+          <div className="px-3.5 pb-3 pt-1 border-t border-slate-200/60 grid grid-cols-2 gap-1.5 text-xs">
+            {[
+              { label: 'AI & ML', color: 'bg-purple-500' },
+              { label: 'Backend & Cloud', color: 'bg-cyan-500' },
+              { label: 'Frontend', color: 'bg-emerald-500' },
+              { label: 'Data Engineering', color: 'bg-rose-500' },
+              { label: 'Core Programming', color: 'bg-indigo-500' },
+            ].map(cat => (
+              <label key={cat.label} className="flex items-center gap-2 text-slate-700 cursor-pointer hover:text-slate-900">
+                <input
+                  type="checkbox"
+                  checked={selectedCategories.includes(cat.label)}
+                  onChange={() => onToggleCategory(cat.label)}
+                  className="accent-indigo-600 rounded"
+                />
+                <span className="flex items-center gap-1.5 text-[11px]">
+                  <span className={`w-2 h-2 rounded-full ${cat.color}`}></span> {cat.label}
+                </span>
+              </label>
+            ))}
+          </div>
+        )}
       </div>
     </aside>
   );
