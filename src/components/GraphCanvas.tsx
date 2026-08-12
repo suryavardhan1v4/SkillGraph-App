@@ -69,8 +69,15 @@ export const GraphCanvas = forwardRef<GraphCanvasRef, GraphCanvasProps>(
     };
 
     const resetZoom = () => {
-      if (fgRef.current && typeof fgRef.current.zoomToFit === 'function') {
-        fgRef.current.zoomToFit(500, 50);
+      if (fgRef.current) {
+        if (typeof fgRef.current.centerAt === 'function') {
+          fgRef.current.centerAt(0, 0, 400);
+        }
+        if (typeof fgRef.current.zoomToFit === 'function') {
+          fgRef.current.zoomToFit(500, 70);
+        } else if (typeof fgRef.current.zoom === 'function') {
+          fgRef.current.zoom(1.0, 400);
+        }
       }
     };
 
