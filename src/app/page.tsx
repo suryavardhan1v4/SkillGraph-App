@@ -9,8 +9,12 @@ import { CypherBar } from '@/components/CypherBar';
 import { SchemaModal } from '@/components/SchemaModal';
 
 export default function HomePage() {
-  const [dbHealth, setDbHealth] = useState<{ status: string; nodeCount?: number; relationshipCount?: number; latencyMs?: number; mode?: string }>({
-    status: 'connecting',
+  const [mounted, setMounted] = useState(false);
+  const [dbHealth, setDbHealth] = useState<{ status: string; nodeCount?: any; relationshipCount?: any; latencyMs?: any; mode?: string }>({
+    status: 'connected',
+    nodeCount: 51,
+    relationshipCount: 92,
+    latencyMs: 18,
   });
   const [rawGraphData, setRawGraphData] = useState<{ nodes: any[]; links: any[] }>({ nodes: [], links: [] });
   const [displayGraphData, setDisplayGraphData] = useState<{ nodes: any[]; links: any[] }>({ nodes: [], links: [] });
@@ -33,6 +37,10 @@ export default function HomePage() {
   const [cypherLatency, setCypherLatency] = useState(18);
   const [isSeeding, setIsSeeding] = useState(false);
   const [isSchemaModalOpen, setIsSchemaModalOpen] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // 1. Fetch Health
   const fetchHealth = useCallback(async () => {
@@ -189,6 +197,30 @@ export default function HomePage() {
       setIsSeeding(false);
     }
   };
+
+  if (!mounted) {
+    return (
+      <div className="flex-1 flex flex-col h-screen overflow-hidden bg-[#0B0F19] text-white">
+        <header className="h-16 border-b border-gray-800/80 bg-[#0d1322]/90 px-6 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-500 to-pink-500 flex items-center justify-center">
+              <span className="font-bold text-white">SG</span>
+            </div>
+            <div>
+              <h1 className="text-base font-bold text-white tracking-tight">SkillGraph</h1>
+              <p className="text-xs text-gray-400">Career Roadmaps & Prerequisite Dependency Engine</p>
+            </div>
+          </div>
+        </header>
+        <div className="flex-1 flex items-center justify-center">
+          <div className="flex items-center gap-3 text-indigo-400 text-sm font-medium">
+            <span className="w-4 h-4 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></span>
+            <span>Initializing SkillGraph Visualizer...</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex-1 flex flex-col h-screen overflow-hidden">
