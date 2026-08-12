@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect, useState, useImperativeHandle, forwardRef } from 'react';
 import dynamic from 'next/dynamic';
-import { Plus, Minus, Maximize, RotateCcw, MousePointer, Sparkles, Layers } from 'lucide-react';
+import { MousePointer } from 'lucide-react';
 
 const ForceGraph2D = dynamic(() => import('react-force-graph-2d'), { ssr: false });
 
@@ -179,66 +179,6 @@ export const GraphCanvas = forwardRef<GraphCanvasRef, GraphCanvasProps>(
             onNodeClick={(node: any) => onNodeClick(node)}
           />
         )}
-
-        {/* FLOATING CONTROLS HUD (Zoom, Node Size, Reset) */}
-        <div className="absolute top-4 right-4 flex flex-col gap-2 z-10">
-          {/* Zoom Buttons */}
-          <div className="flex flex-col bg-[#0f172a]/90 backdrop-blur-md border border-gray-700/80 rounded-2xl p-1 shadow-2xl">
-            <button
-              onClick={zoomIn}
-              className="w-8 h-8 rounded-xl text-gray-300 hover:text-white hover:bg-gray-800/80 flex items-center justify-center transition"
-              title="Zoom In"
-            >
-              <Plus className="w-4 h-4" />
-            </button>
-            <button
-              onClick={zoomOut}
-              className="w-8 h-8 rounded-xl text-gray-300 hover:text-white hover:bg-gray-800/80 flex items-center justify-center transition"
-              title="Zoom Out"
-            >
-              <Minus className="w-4 h-4" />
-            </button>
-            <button
-              onClick={resetZoom}
-              className="w-8 h-8 rounded-xl text-gray-300 hover:text-white hover:bg-gray-800/80 flex items-center justify-center transition"
-              title="Fit to Screen"
-            >
-              <Maximize className="w-4 h-4" />
-            </button>
-          </div>
-
-          {/* Node Size Scale Switcher */}
-          <div className="flex items-center gap-1 bg-[#0f172a]/90 backdrop-blur-md border border-gray-700/80 rounded-2xl p-1 shadow-2xl">
-            <span className="text-[10px] font-bold text-gray-400 pl-1.5 pr-0.5">Size:</span>
-            {[
-              { label: 'S', scale: 0.8 },
-              { label: 'M', scale: 1.0 },
-              { label: 'L', scale: 1.35 },
-            ].map(sz => (
-              <button
-                key={sz.label}
-                onClick={() => setNodeSizeScale(sz.scale)}
-                className={`w-6 h-6 rounded-lg text-[10px] font-bold font-mono transition ${
-                  nodeSizeScale === sz.scale
-                    ? 'bg-indigo-600 text-white shadow-sm'
-                    : 'text-gray-400 hover:text-white hover:bg-gray-800'
-                }`}
-              >
-                {sz.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Reset Filters & Selection */}
-          <button
-            onClick={onResetView}
-            className="h-8 px-3 rounded-2xl bg-[#0f172a]/90 backdrop-blur-md border border-gray-700/80 text-gray-300 hover:text-white hover:bg-gray-800 flex items-center gap-1.5 text-xs font-semibold shadow-2xl transition"
-            title="Reset Filters & View"
-          >
-            <RotateCcw className="w-3.5 h-3.5" />
-            <span>Reset</span>
-          </button>
-        </div>
 
         {/* Real-time Interaction Hint Pill */}
         <div className="absolute bottom-4 left-4 px-3.5 py-2 rounded-xl bg-[#0f172a]/85 backdrop-blur-md border border-gray-700/80 text-[11px] text-gray-300 flex items-center gap-2.5 pointer-events-none shadow-xl font-medium">
