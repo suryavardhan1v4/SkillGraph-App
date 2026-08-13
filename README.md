@@ -176,7 +176,23 @@ Open **[http://localhost:3000](http://localhost:3000)** in your browser!
 
 ---
 
-## 7. Technology Stack
+## 7. Application Screenshots
+
+### A. 2D Interactive Graph Canvas & Career Roadmaps
+![SkillGraph Dashboard & Career Roadmap](docs/screenshots/dashboard-overview.png)
+*Figure 1: Full-stack dashboard showing 2D physics graph viewport, 3-hop career roadmap, and dynamic readiness meter.*
+
+### B. openCypher Shortest Learning Path Simulation
+![Shortest Learning Path](docs/screenshots/shortest-path-simulation.png)
+*Figure 2: Animated shortest learning path simulation highlighting exact sequence from Python to Autonomous AI Agents.*
+
+### C. Variable-Depth Prerequisite Tree & Collapsible Filter Controls
+![Prerequisite Tree & Domain Filters](docs/screenshots/career-roadmap-analyzer.png)
+*Figure 3: Inspecting multi-hop dependencies and filtering technical domains in real-time.*
+
+---
+
+## 8. Technology Stack
 
 - **Framework**: [Next.js 14](https://nextjs.org/) (App Router, Server Components & Route Handlers)
 - **Frontend**: [React 18](https://react.dev/), [Tailwind CSS](https://tailwindcss.com/), [Lucide React](https://lucide.dev/), `react-force-graph-2d`
