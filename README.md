@@ -7,7 +7,7 @@ An interactive full-stack Graph Database web application built with **Next.js 14
 ## 🔗 Project Links & Deliverables
 - **Live Hosted Application**: `[Add your Vercel/Hosted URL here, e.g. https://skillgraph-app.vercel.app]`
 - **1-Minute Loom Video Walkthrough**: `[Add your Loom Video URL here]`
-- **GitHub Repository**: `https://github.com/<your-username>/skillgraph-app`
+- **GitHub Repository**: [https://github.com/suryavardhan1v4/SkillGraph-App](https://github.com/suryavardhan1v4/SkillGraph-App)
 
 ---
 
